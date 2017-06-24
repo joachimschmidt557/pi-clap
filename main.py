@@ -22,6 +22,9 @@ currentlyOn = False
 ON_POSITION = 0
 OFF_POSITION = 180
 
+TIME_TO_WAIT_AFTER_EACH_IMPULSE = 0.5
+LOOP_DELAY = 0.01
+
 def getCOM():
     """
     Function that returns the COM port of the XBee (if available)
@@ -76,7 +79,7 @@ def main():
 	FORMAT = pyaudio.paInt16
 	CHANNELS = 1
 	RATE = 44100
-	threshold = 15000
+	THRESHOLD = 30000
 	max_value = 0
 	p = pyaudio.PyAudio()
 	stream = p.open(format=FORMAT,
@@ -87,7 +90,41 @@ def main():
 					frames_per_buffer=chunk)
 	#GPIO.setmode(GPIO.BCM)
 	#GPIO.setup(pin, GPIO.OUT)
+	try:
+		print("Clap detection initialized")
+		while True:
+			data = stream.read(chunk)
+			as_ints = array('h', data)
+			max_value = max(as_ints)
+			if max_value > THRESHOLD:
+				clap += 1
+				print("Clapped")
+				sleep(TIME_TO_WAIT_AFTER_EACH_IMPULSE)
+			if clap == 1 and flag == 0:
+				_thread.start_new_thread( waitForClaps, ("waitThread",) )
+				flag = 1
+			if exitFlag:
+				sys.exit(0)
+			#sleep(LOOP_DELAY)
+	except (KeyboardInterrupt, SystemExit):
+		print("Exiting")
+		stream.stop_stream()
+		stream.close()
+		p.terminate()
+		#GPIO.cleanup()
 
+def toggleServo():
+	global currentlyOn
+	if currentlyOn:
+		currentlyOn = False
+		ser.write(bytes([OFF_POSITION]))
+		print("Now switched off")
+	else:
+		currentlyOn = True
+		ser.write(bytes([ON_POSITION]))
+		print("Now switched on")
+
+if __name__ == "__main__":
 	#Set up serial
 	try:
 		serialport = getCOM()
@@ -96,35 +133,4 @@ def main():
 	except:
 		print("Error establishing connection to serial port. Exiting now")
 		exit()
-
-	try:
-		print("Clap detection initialized")
-		while True:
-			data = stream.read(chunk)
-			as_ints = array('h', data)
-			max_value = max(as_ints)
-			if max_value > threshold:
-				clap += 1
-				print("Clapped")
-			if clap == 1 and flag == 0:
-				_thread.start_new_thread( waitForClaps, ("waitThread",) )
-				flag = 1
-			if exitFlag:
-				sys.exit(0)
-	except (KeyboardInterrupt, SystemExit):
-		print("\rExiting")
-		stream.stop_stream()
-		stream.close()
-		p.terminate()
-		#GPIO.cleanup()
-
-def toggleServo():
-	if currentlyOn:
-		currentlyOn = False
-		ser.write(bytes[OFF_POSITION])
-	else:
-		currentlyOn = True
-		ser.write(bytes[ON_POSITION])
-
-if __name__ == "__main__":
 	main()

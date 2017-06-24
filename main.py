@@ -76,7 +76,7 @@ def main():
 	FORMAT = pyaudio.paInt16
 	CHANNELS = 1
 	RATE = 44100
-	threshold = 3000
+	threshold = 15000
 	max_value = 0
 	p = pyaudio.PyAudio()
 	stream = p.open(format=FORMAT,
@@ -116,7 +116,7 @@ def main():
 		stream.stop_stream()
 		stream.close()
 		p.terminate()
-		GPIO.cleanup()
+		#GPIO.cleanup()
 
 def toggleServo():
 	if currentlyOn:

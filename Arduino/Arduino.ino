@@ -1,5 +1,5 @@
-# This code originates from the MagnusFlieger/Arduino respository
-# which can be found here: https://github.com/MagnusFlieger/Arduino/
+// This code originates from the MagnusFlieger/Arduino respository
+// which can be found here: https://github.com/MagnusFlieger/Arduino/
 
 #include <Servo.h>
 Servo myservo;  // create servo object to control a servo

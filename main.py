@@ -11,18 +11,19 @@ import serial.tools.list_ports
 
 clap = 0
 wait = 2
-flag = 0
 pin = 24
 exitFlag = False
+waitingForMoreClaps = False
 
 ports = list(serial.tools.list_ports.comports())    #List of serial ports (loaded automatically)
 
 currentlyOn = False
+clapInProgress = False
 
 ON_POSITION = 0
 OFF_POSITION = 180
 
-TIME_TO_WAIT_AFTER_EACH_IMPULSE = 0.5
+TIME_TO_WAIT_AFTER_EACH_CLAP = 0.5
 LOOP_DELAY = 0.01
 
 def getCOM():
@@ -52,10 +53,11 @@ def toggleLight(c):
 
 def waitForClaps(threadName):
 	global clap
-	global flag
 	global wait
 	global exitFlag
 	global pin
+	global waitingForMoreClaps
+
 	print("Waiting for more claps")
 	sleep(wait)
 	if clap == 2:
@@ -68,12 +70,13 @@ def waitForClaps(threadName):
 		exitFlag = True
 	print("Claping Ended")
 	clap = 0
-	flag = 0
+	waitingForMoreClaps = False
 
 def main():
 	global clap
-	global flag
 	global pin
+	global clapInProgress
+	global waitingForMoreClaps
 
 	chunk = 1024
 	FORMAT = pyaudio.paInt16
@@ -93,19 +96,35 @@ def main():
 	try:
 		print("Clap detection initialized")
 		while True:
+			#Get audio data
 			data = stream.read(chunk)
 			as_ints = array('h', data)
 			max_value = max(as_ints)
+			#Evaluate audio data
 			if max_value > THRESHOLD:
-				clap += 1
-				print("Clapped")
-				sleep(TIME_TO_WAIT_AFTER_EACH_IMPULSE)
-			if clap == 1 and flag == 0:
+				#Clap detected
+				if not clapInProgress:
+					#Clap started now
+					clapInProgress = True
+					print("Clap started")
+				else:
+					print("Clap in progress")
+			if not max_value > THRESHOLD:
+				#No clap detected
+				if clapInProgress:
+					#Clap ended now
+					clapInProgress = False
+					clap += 1
+					print("Clap ended")
+					sleep(TIME_TO_WAIT_AFTER_EACH_CLAP)
+			if clap == 1 and not waitingForMoreClaps:
+				#First clap in a series of claps
 				_thread.start_new_thread( waitForClaps, ("waitThread",) )
-				flag = 1
+				waitingForMoreClaps = True
 			if exitFlag:
+				#Exit program
 				sys.exit(0)
-			#sleep(LOOP_DELAY)
+			sleep(LOOP_DELAY)
 	except (KeyboardInterrupt, SystemExit):
 		print("Exiting")
 		stream.stop_stream()

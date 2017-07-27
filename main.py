@@ -97,7 +97,7 @@ def main():
 		print("Clap detection initialized")
 		while True:
 			#Get audio data
-			data = stream.read(CHUNK, exception_on_overflow=False)
+			data = stream.read(CHUNK, False)
 			as_ints = array('h', data)
 			MAX_VALUE = max(as_ints)
 			#Evaluate audio data

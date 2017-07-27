@@ -37,7 +37,7 @@ def getCOM():
 
     #If there is only one port available, automatically use that one
     if len(ports) == 1:
-        return ports[0].device
+        return ports[0][0]
 
     #Display all available ports if there are more than one available
     print("Available Ports: ")

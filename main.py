@@ -89,7 +89,7 @@ def main():
 					channels=CHANNELS, 
 					rate=RATE, 
 					input=True,
-					output=True,
+					#output=True,
 					frames_per_buffer=CHUNK)
 	#GPIO.setmode(GPIO.BCM)
 	#GPIO.setup(pin, GPIO.OUT)

@@ -23,8 +23,8 @@ clapInProgress = False
 ON_POSITION = 0
 OFF_POSITION = 180
 
-TIME_TO_WAIT_AFTER_EACH_CLAP = 0.5
-LOOP_DELAY = 0.01
+TIME_TO_WAIT_AFTER_EACH_CLAP = 0
+LOOP_DELAY = 0
 
 def getCOM():
     """
@@ -101,6 +101,7 @@ def main():
 			as_ints = array('h', data)
 			MAX_VALUE = max(as_ints)
 			#Evaluate audio data
+			print(MAX_VALUE)
 			if MAX_VALUE > THRESHOLD:
 				#Clap detected
 				if not clapInProgress:

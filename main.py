@@ -78,30 +78,30 @@ def main():
 	global clapInProgress
 	global waitingForMoreClaps
 
-	chunk = 1024
+	CHUNK = 512
 	FORMAT = pyaudio.paInt16
 	CHANNELS = 1
 	RATE = 44100
 	THRESHOLD = 30000
-	max_value = 0
+	MAX_VALUE = 0
 	p = pyaudio.PyAudio()
 	stream = p.open(format=FORMAT,
 					channels=CHANNELS, 
 					rate=RATE, 
 					input=True,
 					output=True,
-					frames_per_buffer=chunk)
+					frames_per_buffer=CHUNK)
 	#GPIO.setmode(GPIO.BCM)
 	#GPIO.setup(pin, GPIO.OUT)
 	try:
 		print("Clap detection initialized")
 		while True:
 			#Get audio data
-			data = stream.read(chunk)
+			data = stream.read(CHUNK)
 			as_ints = array('h', data)
-			max_value = max(as_ints)
+			MAX_VALUE = max(as_ints)
 			#Evaluate audio data
-			if max_value > THRESHOLD:
+			if MAX_VALUE > THRESHOLD:
 				#Clap detected
 				if not clapInProgress:
 					#Clap started now
@@ -109,7 +109,7 @@ def main():
 					print("Clap started")
 				else:
 					print("Clap in progress")
-			if not max_value > THRESHOLD:
+			if not MAX_VALUE > THRESHOLD:
 				#No clap detected
 				if clapInProgress:
 					#Clap ended now

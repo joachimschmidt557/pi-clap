@@ -100,7 +100,7 @@ def main():
 			try:
 				data = stream.read(num_frames=CHUNK)
 			except:
-				data = array('b')
+				data = array('b', [0])
 				print("E")
 			as_ints = array('h', data)
 			MAX_VALUE = max(as_ints)

@@ -78,7 +78,7 @@ def main():
 	global clapInProgress
 	global waitingForMoreClaps
 
-	CHUNK = 1024
+	CHUNK = 8192
 	FORMAT = pyaudio.paInt16
 	CHANNELS = 1
 	RATE = 44100

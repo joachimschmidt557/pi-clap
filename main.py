@@ -82,7 +82,7 @@ def main():
 	FORMAT = pyaudio.paInt16
 	CHANNELS = 1
 	RATE = 44100
-	THRESHOLD = 1000
+	THRESHOLD = 3000
 	MAX_VALUE = 0
 	p = pyaudio.PyAudio()
 	stream = p.open(format=FORMAT,

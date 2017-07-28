@@ -16,6 +16,9 @@ data = array.array('b', [0])
 done = False
 
 def analyze():
+    global done
+    global data
+    
     while not done:
         dataAsInts = array.array('h', data)
         maxValue = max(dataAsInts)

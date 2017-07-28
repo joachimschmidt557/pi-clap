@@ -3,7 +3,8 @@ import pyaudio
 #import wave
 
 import threading
-import array
+from array import array
+from time import sleep
 
 CHUNK = 512
 FORMAT = pyaudio.paInt16 #paInt8
@@ -12,7 +13,7 @@ RATE = 44100 #sample rate
 RECORD_SECONDS = 30
 #WAVE_OUTPUT_FILENAME = "pyaudio-output.wav"
 
-data = array.array('b', [0])
+data = array('b', [0])
 done = False
 
 def analyze():
@@ -20,10 +21,10 @@ def analyze():
     global data
     
     while not done:
-        dataAsInts = array.array('h', data)
+        dataAsInts = array('h', data)
         maxValue = max(dataAsInts)
         print(maxValue)
-
+        
 
 
 p = pyaudio.PyAudio()

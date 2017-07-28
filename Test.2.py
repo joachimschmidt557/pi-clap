@@ -44,7 +44,7 @@ thrd.start()
 
 try:
     while not done:
-        with lock
+        with lock:
             data = stream.read(CHUNK)
     #frames.append(data) # 2 bytes(16 bits) per channel
 except KeyboardInterrupt:

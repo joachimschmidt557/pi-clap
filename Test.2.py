@@ -19,6 +19,7 @@ def analyze():
     while not done:
         dataAsInts = array.array('h', data)
         maxValue = max(dataAsInts)
+        print(maxValue)
 
 
 

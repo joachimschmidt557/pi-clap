@@ -23,11 +23,12 @@ def analyze():
     global data
     
     while not done:
-        lock.acquire()
+        #lock.acquire()
         dataAsInts = array('h', data)
         maxValue = max(dataAsInts)
         print(maxValue)
-        lock.release()
+        sleep(0.1)
+        #lock.release()
 
 
 p = pyaudio.PyAudio()
@@ -45,9 +46,9 @@ thrd.start()
 
 try:
     while not done:
-        lock.acquire()    
+        #lock.acquire()    
         data = stream.read(CHUNK)
-        lock.release()
+        #lock.release()
     #frames.append(data) # 2 bytes(16 bits) per channel
 except KeyboardInterrupt:
     done = True

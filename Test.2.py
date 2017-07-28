@@ -12,7 +12,7 @@ RATE = 44100 #sample rate
 RECORD_SECONDS = 30
 #WAVE_OUTPUT_FILENAME = "pyaudio-output.wav"
 
-data = None
+data = array.array('b', [0])
 done = False
 
 def analyze():
@@ -34,6 +34,7 @@ stream = p.open(format=FORMAT,
 print("* recording")
 
 thrd = threading.Thread(target=analyze)
+thrd.start()
 
 try:
     for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):

@@ -37,12 +37,13 @@ thrd = threading.Thread(target=analyze)
 thrd.start()
 
 try:
-    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+    while not done:
         data = stream.read(CHUNK)
     #frames.append(data) # 2 bytes(16 bits) per channel
 except KeyboardInterrupt:
     done = True
 
+thrd.join()
 
 print("* done recording")
 

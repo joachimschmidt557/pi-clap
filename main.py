@@ -46,9 +46,9 @@ def getCOM():
     return input("Enter Xbee Serialport: ")
 
 def toggleLight(c):
-    GPIO.output(c,True)
+    GPIO.output(c, True)
     sleep(1)
-    GPIO.output(c,False)
+    GPIO.output(c, False)
     print("Light toggled")
 
 def waitForClaps(threadName):
@@ -86,8 +86,8 @@ def main():
     MAX_VALUE = 0
     p = pyaudio.PyAudio()
     stream = p.open(format=FORMAT,
-                    channels=CHANNELS, 
-                    rate=RATE, 
+                    channels=CHANNELS,
+                    rate=RATE,
                     input=True,
                     #output=True,
                     frames_per_buffer=CHUNK)
@@ -129,7 +129,7 @@ def main():
             if exitFlag:
                 #Exit program
                 sys.exit(0)
-            sleep(LOOP_DELAY)
+            #sleep(LOOP_DELAY)
     except (KeyboardInterrupt, SystemExit):
         print("Exiting")
         stream.stop_stream()

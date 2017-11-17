@@ -45,11 +45,11 @@ def getCOM():
         print(port)
     return input("Enter Xbee Serialport: ")
 
-def toggleLight(c):
-    GPIO.output(c, True)
-    sleep(1)
-    GPIO.output(c, False)
-    print("Light toggled")
+#def toggleLight(c):
+#    GPIO.output(c, True)
+#    sleep(1)
+#    GPIO.output(c, False)
+#    print("Light toggled")
 
 def waitForClaps(threadName):
     global clap
@@ -68,7 +68,7 @@ def waitForClaps(threadName):
     #     print "Three claps"
     elif clap == 4:
         exitFlag = True
-    print("Claping Ended")
+    print("Clapping Ended")
     clap = 0
     waitingForMoreClaps = False
 
@@ -105,7 +105,7 @@ def main():
             as_ints = array('h', data)
             MAX_VALUE = max(as_ints)
             #Evaluate audio data
-            print(MAX_VALUE)
+            #print(MAX_VALUE)
             if MAX_VALUE > THRESHOLD:
                 #Clap detected
                 if not clapInProgress:

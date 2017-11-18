@@ -20,8 +20,8 @@ ports = list(serial.tools.list_ports.comports())    #List of serial ports (loade
 currentlyOn = False
 clapInProgress = False
 
-ON_POSITION = 0
-OFF_POSITION = 180
+ON_POSITION = 90
+OFF_POSITION = 50
 
 TIME_TO_WAIT_AFTER_EACH_CLAP = 0
 LOOP_DELAY = 1

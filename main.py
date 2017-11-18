@@ -60,15 +60,18 @@ def waitForClaps(threadName):
 
     print("Waiting for more claps")
     sleep(wait)
-    if clap == 2:
+    if clap == 1:
+        print("One clap")
+        toggleServo()
+    elif clap == 2:
         print("Two claps")
         #toggleLight(pin)
-        toggleServo()
+        exitFlag = True
     # elif clap == 3:
     #     print "Three claps"
     elif clap == 4:
         exitFlag = True
-    print("Clapping Ended")
+    print("Waiting ended")
     clap = 0
     waitingForMoreClaps = False
 
@@ -99,7 +102,7 @@ def main():
             #Get audio data
             try:
                 data = stream.read(num_frames=CHUNK)
-            except:
+            except (OSError, IOError):
                 data = array('b', [0])
                 print("E")
             as_ints = array('h', data)

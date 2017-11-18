@@ -35,6 +35,6 @@ if __name__ == "__main__":
         #exit()
     try:
         while True:
-            ser.write(bytes([input("Enter value to send: ")]))
+            ser.write(bytes([int(input("Enter value to send: "))]))
     except (KeyboardInterrupt, SystemExit):
         ser.close()

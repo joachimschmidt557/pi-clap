@@ -108,7 +108,6 @@ def main():
             as_ints = array('h', data)
             MAX_VALUE = max(as_ints)
             #Evaluate audio data
-            #print(MAX_VALUE)
             if MAX_VALUE > THRESHOLD:
                 #Clap detected
                 if not clapInProgress:

@@ -20,7 +20,7 @@ currentlyOn = False
 clapInProgress = False
 
 ON_POSITION = 80
-OFF_POSITION = 50
+OFF_POSITION = 60
 
 TIME_TO_WAIT_AFTER_EACH_CLAP = 0
 LOOP_DELAY = 1

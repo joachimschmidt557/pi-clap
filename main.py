@@ -13,6 +13,7 @@ clap_count = 0
 #pin = 24
 exitFlag = False
 waitingForMoreClaps = False
+suspend = False
 
 ports = list(serial.tools.list_ports.comports())    #List of serial ports (loaded automatically)
 
@@ -56,19 +57,22 @@ def waitForClaps(threadName):
     global clap_count
     global TIME_TO_WAIT_FOR_ADDITIONAL_CLAPS
     global exitFlag
-    global pin
     global waitingForMoreClaps
+    global suspend
 
     print("Waiting for more claps")
     sleep(TIME_TO_WAIT_FOR_ADDITIONAL_CLAPS)
     print("Claps detected: " + str(clap_count))
     if clap_count == 1:
-        toggleServo()
+        if not suspend:
+            toggleServo()
     elif clap_count == 2:
         #toggleLight(pin)
-        exitFlag = True
-    # elif clap == 3:
-    #     print "Three claps"
+        #exitFlag = True
+        pass
+    elif clap_count == 3:
+        suspend = not suspend
+        print("Suspension: " + str(suspend))
     elif clap_count == 4:
         exitFlag = True
     print("Waiting ended")

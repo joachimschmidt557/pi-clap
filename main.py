@@ -59,6 +59,7 @@ def waitForClaps(threadName):
     global exitFlag
     global waitingForMoreClaps
     global suspend
+    global currentlyOn
 
     print("Waiting for more claps")
     sleep(TIME_TO_WAIT_FOR_ADDITIONAL_CLAPS)
@@ -73,6 +74,14 @@ def waitForClaps(threadName):
     elif clap_count == 3:
         suspend = not suspend
         print("Suspension: " + str(suspend))
+        if suspend:
+            # If we just suspended, then turn lights off
+            currentlyOn = True
+            toggleServo()
+        elif not suspend:
+            # If we just restarted, then turn lights on
+            currentlyOn = False
+            toggleServo()
     elif clap_count == 4:
         exitFlag = True
     print("Waiting ended")

@@ -9,9 +9,8 @@ from array import array
 import serial
 import serial.tools.list_ports
 
-clap = 0
-wait = 2
-pin = 24
+clap_count = 0
+#pin = 24
 exitFlag = False
 waitingForMoreClaps = False
 
@@ -20,11 +19,13 @@ ports = list(serial.tools.list_ports.comports())    #List of serial ports (loade
 currentlyOn = False
 clapInProgress = False
 
-ON_POSITION = 90
+ON_POSITION = 80
 OFF_POSITION = 50
 
 TIME_TO_WAIT_AFTER_EACH_CLAP = 0
 LOOP_DELAY = 1
+
+TIME_TO_WAIT_FOR_ADDITIONAL_CLAPS = 2
 
 def getCOM():
     """
@@ -52,31 +53,30 @@ def getCOM():
 #    print("Light toggled")
 
 def waitForClaps(threadName):
-    global clap
-    global wait
+    global clap_count
+    global TIME_TO_WAIT_FOR_ADDITIONAL_CLAPS
     global exitFlag
     global pin
     global waitingForMoreClaps
 
     print("Waiting for more claps")
-    sleep(wait)
-    if clap == 1:
-        print("One clap")
+    sleep(TIME_TO_WAIT_FOR_ADDITIONAL_CLAPS)
+    print("Claps detected: " + str(clap_count))
+    if clap_count == 1:
         toggleServo()
-    elif clap == 2:
-        print("Two claps")
+    elif clap_count == 2:
         #toggleLight(pin)
         exitFlag = True
     # elif clap == 3:
     #     print "Three claps"
-    elif clap == 4:
+    elif clap_count == 4:
         exitFlag = True
     print("Waiting ended")
-    clap = 0
+    clap_count = 0
     waitingForMoreClaps = False
 
 def main():
-    global clap
+    global clap_count
     global pin
     global clapInProgress
     global waitingForMoreClaps
@@ -123,11 +123,11 @@ def main():
                 if clapInProgress:
                     #Clap ended now
                     clapInProgress = False
-                    clap += 1
+                    clap_count += 1
                     print("Clap ended")
                     #sleep(TIME_TO_WAIT_AFTER_EACH_CLAP)
 
-            if clap == 1 and not waitingForMoreClaps:
+            if clap_count == 1 and not waitingForMoreClaps:
                 #First clap in a series of claps
                 _thread.start_new_thread( waitForClaps, ("waitThread",) )
                 waitingForMoreClaps = True

@@ -107,6 +107,7 @@ def main():
                 print("E")
             as_ints = array('h', data)
             MAX_VALUE = max(as_ints)
+
             #Evaluate audio data
             if MAX_VALUE > THRESHOLD:
                 #Clap detected
@@ -115,6 +116,7 @@ def main():
                     clapInProgress = True
                     print("Clap started")
                 else:
+                    # CLap is still ongoing
                     print("Clap in progress")
             if not MAX_VALUE > THRESHOLD:
                 #No clap detected
@@ -123,11 +125,13 @@ def main():
                     clapInProgress = False
                     clap += 1
                     print("Clap ended")
-                    sleep(TIME_TO_WAIT_AFTER_EACH_CLAP)
+                    #sleep(TIME_TO_WAIT_AFTER_EACH_CLAP)
+
             if clap == 1 and not waitingForMoreClaps:
                 #First clap in a series of claps
                 _thread.start_new_thread( waitForClaps, ("waitThread",) )
                 waitingForMoreClaps = True
+
             if exitFlag:
                 #Exit program
                 sys.exit(0)

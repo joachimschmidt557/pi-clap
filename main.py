@@ -152,11 +152,11 @@ def toggleServo():
 
 if __name__ == "__main__":
     #Set up serial
-    #try:
     serialport = getCOM()
     print("Establishing connection to: %s" % serialport)
     ser = serial.Serial(serialport, 9600, timeout=1)
-    #except:
-        #print("Error establishing connection to serial port. Exiting now")
-        #exit()
+
+    toggleServo()
+
+    # Main procedure
     main()
